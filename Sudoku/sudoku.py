@@ -29,7 +29,7 @@ def recursiveSolutionGenerator(currentGame,columnValues,currentPermutationsPerPo
     for i in range(len(currentGame)):
         if len(currentPermutationsPerPosition[i]) == 1:
             count+=1
-    print indexOfSmallest,[len(permutationsList) for permutationsList in currentPermutationsPerPosition]
+#    print indexOfSmallest,[len(permutationsList) for permutationsList in currentPermutationsPerPosition]
     for i in xrange(0,len(currentGame)):
         if len(currentPermutationsPerPosition[i])>1 and len(currentPermutationsPerPosition[i]) < smallestValue:
             indexOfSmallest = i
@@ -37,16 +37,18 @@ def recursiveSolutionGenerator(currentGame,columnValues,currentPermutationsPerPo
     if count == 8:
         for i in range(len(currentGame)):
             if i != indexOfSmallest:
-                print i,'|', ' '.join(currentPermutationsPerPosition[i][0])
+                pass
+                #print i,'|', ' '.join(currentPermutationsPerPosition[i][0])
             else:
-                print i,'|', ' '.join('000000000')
+                pass
+                #print i,'|', ' '.join('000000000')
     permutationsToTry = currentPermutationsPerPosition[indexOfSmallest]
-    print indexOfSmallest,smallestValue
+    #print indexOfSmallest,smallestValue
     for value in permutationsToTry:
         currentGame[indexOfSmallest] = value
         copyOfColumnValues = generateColumnValuesForGame(value,copy.deepcopy(columnValues))
         currentPermutationsArray = populatePermutationsPerPosition(currentGame,copyOfColumnValues,list(set([x for p in currentPermutationsPerPosition for x in p])))
-        print indexOfSmallest,[len(permutationsList) for permutationsList in currentPermutationsArray]
+    #    print indexOfSmallest,[len(permutationsList) for permutationsList in currentPermutationsArray]
         if all([len(permutationsList)>0 for permutationsList in currentPermutationsArray]):
             if  all([len(permutationsList)==1 for permutationsList in currentPermutationsArray]):
                 count = True
