@@ -1,14 +1,14 @@
 validSet = set(str(i) for i in xrange(1,10))
-print validSet
 count = 0
 count2 = 0
-solutionSet = [line.split()for line in open('output.txt')]
+solutionSet = [line.split()for line in open('lone.txt')]
+#solutionSet = [line.split()for line in open('results.txt')]
 for solution in solutionSet:
-#    print solution    
+    print solution    
     for row in solution:
-        if set(row) == validSet:
+        if len(set(row)) == len(validSet):
             count+=1
     for i in range(len(solution)):
-        if set(row[i] for row in solution):
+        print set(row[i] for row in solution)
+        if len(set(row[i] for row in solution))==len(validSet):
             count2+=1
-print count,count2
