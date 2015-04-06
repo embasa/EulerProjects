@@ -42,13 +42,14 @@ def solveGame(game):
         
     if solved:
         COUNT +=1
-        print ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
+        print "first",' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
     #print ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
     else:
         guessMethod(game,grid)
     return solved
 
 def guessMethod(game,grid):
+    print "FIRSTLIN!!!!!!"
     x = -1
     y = -1
     smallestValue = 110
@@ -61,7 +62,34 @@ def guessMethod(game,grid):
                 smallestValue = len(grid[i][j])
     print grid[x][y],smallestValue
     copyOfSet = copy.deepcopy(grid[x][y])
-    print copyOfSet
+    secondCopyOfSet = copy.deepcopy(grid[x][y])
+    solved = False 
+    while len(secondCopyOfSet)>0 and not solved:
+        grid = copy.deepcopy(copyGrid)
+        grid[x][y] = set(secondCopyOfSet.pop())
+        grid2 = [[]]
+        print grid[x][y]
+        while not solved:
+            solved = True
+            count = 0
+            for i in range(len(grid)):
+                for j in range(len(grid)):
+                    if len(grid[i][j])==1:
+                        count += 1
+                        clearGrid(i,j,grid)
+                    elif len(grid[i][j]) == 0:
+                        return False
+                    else:
+                        solved = False
+            if grid2 == grid:
+                if count == 81:
+                    print"solved", ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
+                    solved = True
+                else:
+                    solved = False 
+                break
+            grid2 = copy.deepcopy(grid)
+        print"solved", ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
 
 def clearGrid(x,y,gRid):
     if len(gRid[x][y]) == 1:
