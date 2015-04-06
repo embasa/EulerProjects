@@ -23,29 +23,33 @@ def clearGrid(x,y,gRid):
                 gRid[j][y] = gRid[j][y] - gRid[x][y]
         subSquare(x,y,gRid)
 
-game =[ line.rsplit() for line in open('mike.txt')]
+game =[ line.rsplit() for line in open('one_game.txt')]
 game = [line for row in game for line in row]
 grid = [[copy.deepcopy(fullHouse) for i in range(len(fullHouse))]for j in range(len(fullHouse))]
 
 print "---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+--"
 for i in range(len(grid)):
     for j in range(len(grid)):
-        val = copy.deepcopy(fullHouse)
         if game[i][j] != '0':
             grid[i][j] = grid[i][j].intersection(game[i][j])
+        if len(grid[i][j]) > 1:
+            solved = False
         print repr(int(''.join(grid[i][j]))).rjust(9),
     print '\n'
+
 print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
 
-for i in range(len(grid)):
-    for j in range(len(grid)):
-        if len(grid[i][j])==1:
-            clearGrid(i,j,grid)
-            break
-        else:
-            pass
-#            print '0',
-
+solved = False
+while not solved:
+    solved = True
+    for i in range(len(grid)):
+        for j in range(len(grid)):
+            if len(grid[i][j])==1:
+                clearGrid(i,j,grid)
+            else:
+                solved = False
+                #            print '0',
+print "SOLVED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 for i in range(len(grid)):
     for j in range(len(grid)):
         val = copy.deepcopy(fullHouse)
