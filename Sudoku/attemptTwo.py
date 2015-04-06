@@ -8,7 +8,6 @@ def subSquare(x,y,grId):
             if len(grId[i][j])>1:
                 grId[i][j] = grId[i][j] - grId[x][y]
 
-
 def solveGame(game):
     global COUNT
     grid = [[copy.deepcopy(fullHouse) for i in range(len(fullHouse))]for j in range(len(fullHouse))]
@@ -45,11 +44,20 @@ def solveGame(game):
         print "first",' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
     #print ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
     else:
+#        pass
         guessMethod(game,grid)
     return solved
 
+
 def guessMethod(game,grid):
     print "FIRSTLIN!!!!!!"
+    for row in game:
+        print '        ','          '.join(row)
+    print "--------------------------------------------------------------------------------------------------------------"
+    for i in range(len(grid)):
+        for j in range(len(grid)):
+            print ''.join([val for val in grid[i][j]]).rjust(10),
+        print ''
     x = -1
     y = -1
     smallestValue = 110
@@ -60,7 +68,7 @@ def guessMethod(game,grid):
                 x = i
                 y = j
                 smallestValue = len(grid[i][j])
-    print grid[x][y],smallestValue
+    print"beforeLoop:",x,y, grid[x][y]
     copyOfSet = copy.deepcopy(grid[x][y])
     secondCopyOfSet = copy.deepcopy(grid[x][y])
     solved = False 
@@ -78,18 +86,24 @@ def guessMethod(game,grid):
                         count += 1
                         clearGrid(i,j,grid)
                     elif len(grid[i][j]) == 0:
-                        return False
+                        print "ASFSDFSDF"
+                        pass                    
                     else:
                         solved = False
+            print '***********************************************************************************************************'                
+            for i in range(len(grid)):
+                for j in range(len(grid)):
+                    print ''.join([val for val in grid[i][j]]).rjust(10),
+                print ''
             if grid2 == grid:
                 if count == 81:
-                    print"solved", ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
+                    print"solved2", ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
                     solved = True
                 else:
                     solved = False 
                 break
             grid2 = copy.deepcopy(grid)
-        print"solved", ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
+        #print"solved", ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
 
 def clearGrid(x,y,gRid):
     if len(gRid[x][y]) == 1:
