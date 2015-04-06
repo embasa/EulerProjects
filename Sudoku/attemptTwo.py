@@ -1,18 +1,69 @@
 #attempt 2 at sudoku
 import copy
+COUNT = 0
 fullHouse = set(['1','2','3','4','5','6','7','8','9'])
 def subSquare(x,y,grId):
-#    print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     for i in xrange(3*(x/3),3*(x/3)+3):
         for j in xrange(3*(y/3),3*(y/3)+3):
             if len(grId[i][j])>1:
                 grId[i][j] = grId[i][j] - grId[x][y]
- #           print repr(int(''.join(grId[i][j]))).rjust(9),
-  #      print '\n'
-   # print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+
+def solveGame(game):
+    global COUNT
+    grid = [[copy.deepcopy(fullHouse) for i in range(len(fullHouse))]for j in range(len(fullHouse))]
+    for i in range(len(grid)):
+        for j in range(len(grid)):
+            if game[i][j] != '0':
+                grid[i][j] = grid[i][j].intersection(game[i][j])
+
+    solved = False 
+    grid2 = [[]]
+
+    while not solved:
+        solved = True
+        count = 0
+        for i in range(len(grid)):
+            for j in range(len(grid)):
+                if len(grid[i][j])==1:
+                    count += 1
+                    clearGrid(i,j,grid)
+                elif len(grid[i][j]) == 0:
+                    return False
+                else:
+                    solved = False
+        if grid2 == grid:
+            if count == 81:
+                solved = True
+            else:
+                solved = False 
+            break
+        grid2 = copy.deepcopy(grid)
+        
+    if solved:
+        COUNT +=1
+        print ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
+    #print ' '.join([''.join([list(element)[0]for element in row])for row in grid]) 
+    else:
+        guessMethod(game,grid)
+    return solved
+
+def guessMethod(game,grid):
+    x = -1
+    y = -1
+    smallestValue = 110
+    copyGrid = copy.deepcopy(grid)
+    for i in range(len(grid)):
+        for j in range(len(grid)):
+            if len(grid[i][j])>1 and len(grid[i][j]) < smallestValue :
+                x = i
+                y = j
+                smallestValue = len(grid[i][j])
+    print grid[x][y],smallestValue
+    copyOfSet = copy.deepcopy(grid[x][y])
+    print copyOfSet
 
 def clearGrid(x,y,gRid):
-    #print ''.join(gRid[x][y]),
     if len(gRid[x][y]) == 1:
         for i in range(len(gRid)):
             if len(gRid[x][i]) >1:
@@ -23,38 +74,8 @@ def clearGrid(x,y,gRid):
                 gRid[j][y] = gRid[j][y] - gRid[x][y]
         subSquare(x,y,gRid)
 
-game =[ line.rsplit() for line in open('one_game.txt')]
-game = [line for row in game for line in row]
-grid = [[copy.deepcopy(fullHouse) for i in range(len(fullHouse))]for j in range(len(fullHouse))]
-
-print "---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+--"
-for i in range(len(grid)):
-    for j in range(len(grid)):
-        if game[i][j] != '0':
-            grid[i][j] = grid[i][j].intersection(game[i][j])
-        if len(grid[i][j]) > 1:
-            solved = False
-        print repr(int(''.join(grid[i][j]))).rjust(9),
-    print '\n'
-
-print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-
-solved = False
-while not solved:
-    solved = True
-    for i in range(len(grid)):
-        for j in range(len(grid)):
-            if len(grid[i][j])==1:
-                clearGrid(i,j,grid)
-            else:
-                solved = False
-                #            print '0',
-print "SOLVED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-for i in range(len(grid)):
-    for j in range(len(grid)):
-        val = copy.deepcopy(fullHouse)
-        if game[i][j] != '0':
-            grid[i][j] = grid[i][j].intersection(game[i][j])
-        print repr(int(''.join(grid[i][j]))).rjust(9),
-    print '\n'
-
+games = [line.rsplit() for line in open('p096_sudoku.txt') if line[:4] !='Grid']
+games = [line for row in games for line in row]
+gameCount = len(games)/9
+for i in range(gameCount):
+    solveGame(games[i*9:i*9+9])

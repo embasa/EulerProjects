@@ -1,7 +1,7 @@
 validSet = set(str(i) for i in xrange(1,10))
 count = 0
 count2 = 0
-solutionSet = [line.split()for line in open('lone.txt')]
+solutionSet = [line.split()for line in open('file.txt')]
 #solutionSet = [line.split()for line in open('results.txt')]
 for solution in solutionSet:
     print solution    
